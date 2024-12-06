@@ -8,6 +8,6 @@ export interface Fuel {
   adresse: string;                    // Adresse de la station
   ville: string;                      // Ville de la station
   prix: PrixElement[];                // Prix du carburant
-  geom: Geom;                         // Coordonnées géographiques de la station
+  geom: Geom[];                       // Coordonnées géographiques de la station
   carburants: string[];               // Liste des carburants disponibles
 }

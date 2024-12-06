@@ -8,6 +8,6 @@ export type APIFuel = {
   adresse: string;                    // Adresse de la station
   ville: string;                      // Ville de la station
   prix: PrixElement[];                // Prix du carburant
-  geom: Geom;                         // Coordonnées géographiques de la station
+  geom: Geom[];                         // Coordonnées géographiques de la station
   carburants_disponibles: string[];   // Liste des carburants disponibles
 };

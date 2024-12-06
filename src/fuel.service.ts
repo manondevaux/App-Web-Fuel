@@ -29,7 +29,7 @@ export class FuelService implements OnModuleInit {
 
   
   private async loadFuelsFromFile() {
-    const data = await readFile('src/dataset.json', 'utf8');
+    const data = await readFile('src/opendatamef.json', 'utf8');
     const fuels = JSON.parse(data.toString()) as Fuel[];
     fuels.forEach((fuel) => this.addFuel(fuel));
   }
@@ -37,12 +37,15 @@ export class FuelService implements OnModuleInit {
   private async loadFuelsFromApi() {
     await firstValueFrom(
       this.httpService
-        .get<APIFuel[]>('https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2@opendatamef/records?select=id%2C%20cp%2C%20adresse%2C%20ville%2C%20prix%2C%20geom%2C%20carburants_disponibles&limit=20')
+        .get<{ records: APIFuel[] }>('https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2@opendatamef/records?select=id%2C%20cp%2C%20adresse%2C%20ville%2C%20prix%2C%20geom%2C%20carburants_disponibles&limit=20')
         .pipe(
-          map((response) => response.data),
+          map((response) => {
+            console.log('Response data:', response.data);
+            return response.data.records || [];
+          }),
           map((apiFuels) =>
             apiFuels.map((apiFuel) => ({
-              id: Number(apiFuel.id),
+              id: apiFuel.id,
               cp: apiFuel.cp,
               adresse: apiFuel.adresse,
               ville: apiFuel.ville,
@@ -52,7 +55,10 @@ export class FuelService implements OnModuleInit {
 
             })),
           ),
-          tap((fuels) => fuels.forEach((fuel) => this.addFuel(fuel))),
+          tap((fuels) => fuels.forEach((fuel) => {
+            console.log('Fuel:', fuel);
+            this.addFuel(fuel);
+          })),
         ),
     );
   }
