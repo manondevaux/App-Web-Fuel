@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Fuel",
+  "name": "Station",
   "type": "collection",
   "ignore": [
     "node_modules",
