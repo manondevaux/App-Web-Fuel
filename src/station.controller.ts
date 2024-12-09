@@ -39,9 +39,12 @@ export class StationController {
     this.stationService.remove(id);
   }
 
-  @Get('search')
+  @Post('search')
   @HttpCode(200)
-  searchStations(@Body() { term }: { term: string }): Station[] {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  searchStations(@Body() body: any): Station[] {
+    const { term } = body;
     return this.stationService.search(term);
   }
+  
 }

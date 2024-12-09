@@ -27,13 +27,13 @@ export class StationService implements OnModuleInit {
 
   }
 
-  
   private async loadStationsFromFile() {
     const data = await readFile('src/opendatamef.json', 'utf8');
     const stations = JSON.parse(data.toString()) as Station[];
     stations.forEach((station) => this.addStation(station));
   }
 
+  /*
   private async loadStationsFromApi() {
     await firstValueFrom(
       this.httpService
@@ -52,7 +52,7 @@ export class StationService implements OnModuleInit {
               adresse: apiStation.adresse,
               ville: apiStation.ville,
               prix: apiStation.prix,
-              carburants: apiStation.carburants_disponibles,
+              carburants_disponibles: apiStation.carburants_disponibles,
 
             })),
           ),
@@ -62,9 +62,10 @@ export class StationService implements OnModuleInit {
           })),
         ),
     );
-  }
+  }*/
 
   addStation(station: Station) {
+    //console.log('Adding station:', station);
     this.storage.set(station.id.toString(), station);
   }
 
@@ -86,7 +87,7 @@ export class StationService implements OnModuleInit {
 
   getStationsOf(carburant: string): Station[] {
     return this.getAllStations()
-      .filter((station) => station.carburants?.includes(carburant))
+      .filter((station) => station.carburants_disponibles?.includes(carburant))
       .sort((a, b) => a.cp.localeCompare(b.cp));
   }
 
@@ -95,8 +96,12 @@ export class StationService implements OnModuleInit {
   }
 
   search(term: string) {
+    const normalizedTerm = term.toLowerCase().trim();
     return Array.from(this.storage.values())
-      .filter((station) => station.ville.includes(term) || station.adresse.includes(term))
-      .sort((a, b) => a.cp.localeCompare(b.cp));
+    .filter((station) =>
+    station.ville.toLowerCase().includes(normalizedTerm) ||
+    station.adresse.toLowerCase().includes(normalizedTerm)
+  )
+  .sort((a, b) => a.cp.localeCompare(b.cp));
   }
 }
