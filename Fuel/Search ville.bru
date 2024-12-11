@@ -4,12 +4,18 @@ meta {
   seq: 7
 }
 
-get {
-  url: {{url}}/search
-  body: text
+post {
+  url: {{url}}/stations/search
+  body: json
   auth: none
 }
 
-body:text {
-  Bourg-en-Bresse
+body:json {
+  {
+    "term": "bd"
+  }
+}
+
+body:xml {
+  bourg
 }

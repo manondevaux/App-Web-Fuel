@@ -28,7 +28,7 @@ export class StationService implements OnModuleInit {
   }
 
   private async loadStationsFromFile() {
-    const data = await readFile('src/opendatamef.json', 'utf8');
+    const data = await readFile('src/dataset.json', 'utf8');
     const stations = JSON.parse(data.toString()) as Station[];
     stations.forEach((station) => this.addStation(station));
   }
@@ -66,6 +66,7 @@ export class StationService implements OnModuleInit {
 
   addStation(station: Station) {
     //console.log('Adding station:', station);
+    station.isFavorite = false;
     this.storage.set(station.id.toString(), station);
   }
 
@@ -103,5 +104,15 @@ export class StationService implements OnModuleInit {
     station.adresse.toLowerCase().includes(normalizedTerm)
   )
   .sort((a, b) => a.cp.localeCompare(b.cp));
+  }
+
+  // Méthode pour mettre à jour l'état favori
+  toggleFavorite(id: number, isFavorite: boolean): Station {
+    const station = this.storage.get(id.toString());
+    if (!station) {
+        throw new Error(`Station avec l'ID ${id} non trouvée.`);
+    }
+    station.isFavorite = isFavorite;
+    return station;
   }
 }

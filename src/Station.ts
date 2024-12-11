@@ -70,5 +70,6 @@ export interface Station {
   code_departement: string;           // Code du département de la station
   region: string;                     // Région de la station
   code_region: string;                // Code de la région de la station
-  horaires_jour?: string;              // Horaires d'ouverture de la station
+  horaires_jour?: string;             // Horaires d'ouverture de la station
+  isFavorite: boolean;        // Indique si la station est en favori
 }

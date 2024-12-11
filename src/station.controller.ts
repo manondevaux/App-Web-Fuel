@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import type { Station } from './Station';
@@ -46,5 +47,17 @@ export class StationController {
     const { term } = body;
     return this.stationService.search(term);
   }
-  
+
+  @Put(':id')
+  updateFavoriteStatus(
+    @Param('id') id: number,
+    @Body() body: { isFavorite: boolean }
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  ): any {
+    const updatedStation = this.stationService.toggleFavorite(id, body.isFavorite);
+    return {
+      message: 'Statut favori mis à jour avec succès',
+      data: updatedStation,
+    };
+  }
 }
