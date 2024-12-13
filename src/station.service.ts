@@ -73,12 +73,12 @@ export class StationService implements OnModuleInit {
       cp: station.cp,
       adresse: station.adresse,
       ville: station.ville,
-      gazole_prix: station.gazole_prix.toString(),
-      sp95_prix: station.sp95_prix.toString(),
-      e85_prix: station.e85_prix.toString(),
-      gplc_prix: station.gplc_prix.toString(),
-      e10_prix: station.e10_prix.toString(),
-      sp98_prix: station.sp98_prix.toString(),
+      gazole_prix: station.gazole_prix ? station.gazole_prix.toString() : null,
+      sp95_prix: station.sp95_prix ? station.sp95_prix.toString() : null,
+      e85_prix: station.e85_prix ? station.e85_prix.toString() : null,
+      gplc_prix: station.gplc_prix ? station.gplc_prix.toString() : null,
+      e10_prix: station.e10_prix ? station.e10_prix.toString() : null,
+      sp98_prix: station.sp98_prix ? station.sp98_prix.toString() : null,
       isFavorite: station.isFavorite
     };
 
