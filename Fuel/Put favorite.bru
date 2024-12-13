@@ -5,7 +5,13 @@ meta {
 }
 
 put {
-  url: /stations/id
-  body: none
+  url: {{url}}/stations/1000002
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "isFavorite": false
+  }
 }

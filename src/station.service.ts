@@ -64,12 +64,32 @@ export class StationService implements OnModuleInit {
     );
   }*/
 
+  toAPIStation(station: Station): APIStation {
+
+    return {
+      id: station.id,
+      latitude: station.latitude,
+      longitude: station.longitude,
+      cp: station.cp,
+      adresse: station.adresse,
+      ville: station.ville,
+      gazole_prix: station.gazole_prix,
+      sp95_prix: station.sp95_prix,
+      e85_prix: station.e85_prix,
+      gplc_prix: station.gplc_prix,
+      e10_prix: station.e10_prix,
+      sp98_prix: station.sp98_prix,
+      isFavorite: station.isFavorite,
+    };
+
+  }
+
   addStation(station: Station) {
     //console.log('Adding station:', station);
     station.isFavorite = false;
     this.storage.set(station.id.toString(), station);
   }
-
+/*
   getStation(id: string): Station {
     const station = this.storage.get(id);
 
@@ -78,15 +98,15 @@ export class StationService implements OnModuleInit {
     }
 
     return station;
+  }*/
+
+  getAllStations(): APIStation[] {
+    return Array.from(this.storage.values())
+    .sort((a, b) => a.cp.localeCompare(b.cp))
+    .map((station) => this.toAPIStation(station));
   }
 
-  getAllStations(): Station[] {
-    return Array.from(this.storage.values()).sort((a, b) =>
-      a.cp.localeCompare(b.cp),
-    );
-  }
-
-  getStationsOf(carburant: string): Station[] {
+  /*getStationsOf(carburant: string): APIStation[] {
     return this.getAllStations()
       .filter((station) => station.carburants_disponibles?.includes(carburant))
       .sort((a, b) => a.cp.localeCompare(b.cp));
@@ -104,15 +124,15 @@ export class StationService implements OnModuleInit {
     station.adresse.toLowerCase().includes(normalizedTerm)
   )
   .sort((a, b) => a.cp.localeCompare(b.cp));
-  }
+  }*/
 
   // Méthode pour mettre à jour l'état favori
-  toggleFavorite(id: number, isFavorite: boolean): Station {
+  toggleFavorite(id: number, isFavorite: boolean): APIStation {
     const station = this.storage.get(id.toString());
     if (!station) {
         throw new Error(`Station avec l'ID ${id} non trouvée.`);
     }
     station.isFavorite = isFavorite;
-    return station;
+    return this.toAPIStation(station);
   }
 }
