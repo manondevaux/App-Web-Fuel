@@ -41,7 +41,7 @@ Les données sont extraites de https://data.opendatasoft.com/explore/dataset/pri
 
 ## Scripts Disponibles
 
-- **Démarrer le serveur de développement** :
+**Démarrer le serveur de développement** :
   ```bash
   npm run start:dev
   ```
